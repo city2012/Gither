@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gsy_github_app_flutter/common/event/http_error_event.dart';
@@ -8,6 +9,7 @@ import 'package:gsy_github_app_flutter/common/event/index.dart';
 import 'package:gsy_github_app_flutter/common/localization/default_localizations.dart';
 import 'package:gsy_github_app_flutter/common/localization/gsy_localizations_delegate.dart';
 import 'package:gsy_github_app_flutter/page/debug/debug_label.dart';
+import 'package:gsy_github_app_flutter/page/home/widget/home_drawer.dart';
 import 'package:gsy_github_app_flutter/page/photoview_page.dart';
 import 'package:gsy_github_app_flutter/redux/gsy_state.dart';
 import 'package:gsy_github_app_flutter/model/User.dart';
@@ -56,6 +58,7 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
 
   @override
   void initState() {
+    setOptimalDisplayMode();
     super.initState();
     Future.delayed(Duration(seconds: 0), () {
       /// 通过 with NavigatorObserver ，在这里可以获取可以往上获取到
@@ -65,6 +68,25 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
       navigator!.context;
       navigator;
     });
+  }
+
+  Future<void> setOptimalDisplayMode() async {
+    final List<DisplayMode> supported = await FlutterDisplayMode.supported;
+    final DisplayMode active = await FlutterDisplayMode.active;
+
+    final List<DisplayMode> sameResolution = supported.where(
+            (DisplayMode m) => m.width == active.width
+            && m.height == active.height).toList()..sort(
+            (DisplayMode a, DisplayMode b) =>
+            b.refreshRate.compareTo(a.refreshRate));
+
+    final DisplayMode mostOptimalMode = sameResolution.isNotEmpty
+        ? sameResolution.first
+        : active;
+
+    /// This setting is per session.
+    /// Please ensure this was placed with `initState` of your root widget.
+    await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
   }
 
   registerPlatformLangDelegates(){
@@ -117,6 +139,10 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
               LoginPage.sName: (context) {
                 _context = context;
                 return NavigatorUtils.pageContainer(new LoginPage(), context);
+              },
+              HomeDrawer.sName: (context) {
+                _context = context;
+                return NavigatorUtils.pageContainer(new HomeDrawer(), context);
               },
 
               ///使用 ModalRoute.of(context).settings.arguments; 获取参数

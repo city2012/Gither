@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
+import 'package:gsy_github_app_flutter/widget/gsy_icon_text.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_tabs.dart' as GSYTab;
+
+import '../common/localization/default_localizations.dart';
+import '../common/utils/navigator_utils.dart';
 
 ///支持顶部和顶部的TabBar控件
 ///配合AutomaticKeepAliveClientMixin可以keep住
@@ -132,12 +137,49 @@ class _GSYTabBarState extends State<GSYTabBarWidget>
       );
     }
 
+    // return new Scaffold(
+    //
+    //       body:  Column(
+    //               children: [
+    //                 Container(
+    //                   color: Colors.redAccent,
+    //                   child: Row(
+    //                     children: [
+    //                       SafeArea(child: SizedBox(child:widget.title?? Container(color: Colors.redAccent), width: MediaQuery.of(context).size.width,)),
+    //                     ],
+    //                   ),
+    //                 ),
+    //                 Expanded(
+    //                     child: new PageView(
+    //                       controller: _pageController,
+    //                       children: widget.tabViews!,
+    //                       onPageChanged: _navigationPageChanged,
+    //                     ),
+    //                 )
+    //
+    //               ],
+    //             )
+    // );
     ///底部tab bar
     return new Scaffold(
         drawer: widget.drawer,
         appBar: new AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          title: widget.title,
+            toolbarHeight: 75,
+            backgroundColor: Theme.of(context).primaryColor,
+            // backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.8),
+            title: widget.title,
+            titleTextStyle: GSYConstant.largeLargeTextWhite,
+            leading: Builder(
+              builder: (context) => TextButton(
+                // icon: new Icon(Icons.settings),
+                child: Text(
+                    GSYLocalizations.of(context)!.currentLocalized!.app_name,
+                    style: GSYConstant.largeLargeTextWhite
+                ),
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              )
+            ),
+          leadingWidth: MediaQuery.of(context).size.width * 0.3,
         ),
         body: new PageView(
           controller: _pageController,
@@ -148,6 +190,7 @@ class _GSYTabBarState extends State<GSYTabBarWidget>
           //为了适配主题风格，包一层Material实现风格套用
           color: Theme.of(context).primaryColor, //底部导航栏主题颜色
           child: new SafeArea(
+            maintainBottomViewPadding: true,
             child: new GSYTab.TabBar(
               //TabBar导航标签，底部导航放到Scaffold的bottomNavigationBar中
               controller: _tabController,
@@ -158,7 +201,8 @@ class _GSYTabBarState extends State<GSYTabBarWidget>
               onTap: _navigationTapClick, //tab标签的下划线颜色
             ),
           ),
-        ));
+        )
+    );
   }
 }
 

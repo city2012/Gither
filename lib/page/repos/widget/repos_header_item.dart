@@ -8,6 +8,7 @@ import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/model/RepositoryQL.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_card_item.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_icon_text.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 仓库详情信息头控件
@@ -397,7 +398,8 @@ class _ReposHeaderItemState extends State<ReposHeaderItem> {
             ),
             child: new BackdropFilter(
               ///高斯模糊
-              filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+              // filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
+              filter: ImageFilter.compose(outer: ColorFilter.mode(Colors.black87, BlendMode.darken), inner: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0)),
               child: new Padding(
                 padding: new EdgeInsets.only(
                     left: 10.0, top: 0.0, right: 10.0, bottom: 10.0),

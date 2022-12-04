@@ -7,6 +7,7 @@ import 'package:gsy_github_app_flutter/page/common_list_page.dart';
 import 'package:gsy_github_app_flutter/page/debug/debug_data_page.dart';
 import 'package:gsy_github_app_flutter/page/gsy_webview.dart';
 import 'package:gsy_github_app_flutter/page/home/home_page.dart';
+import 'package:gsy_github_app_flutter/page/home/widget/home_drawer.dart';
 import 'package:gsy_github_app_flutter/page/honor_list_page.dart';
 import 'package:gsy_github_app_flutter/page/issue/issue_detail_page.dart';
 import 'package:gsy_github_app_flutter/page/login/login_page.dart';
@@ -63,6 +64,10 @@ class NavigatorUtils {
   ///主页
   static goHome(BuildContext context) {
     Navigator.pushReplacementNamed(context, HomePage.sName);
+  }
+
+  static goHomeDrawer(BuildContext context) {
+    Navigator.pushReplacementNamed(context, HomeDrawer.sName);
   }
 
   ///登录页

@@ -14,6 +14,7 @@ import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_flex_button.dart';
 import 'package:package_info/package_info.dart';
 import 'package:redux/redux.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 主页drawer
@@ -21,6 +22,8 @@ import 'package:redux/redux.dart';
  * Date: 2018-07-18
  */
 class HomeDrawer extends StatelessWidget {
+  static final String sName = "homeDrawer";
+
   showAboutDialog(BuildContext context, String? versionName) {
     versionName ??= "Null";
     NavigatorUtils.showGSYDialog(
@@ -54,6 +57,14 @@ class HomeDrawer extends StatelessWidget {
     }, colorList: CommonUtils.getThemeListColor());
   }
 
+  Color? relateClr(BuildContext context, {double lerp = 0.1}){
+    return Theme.of(context)
+        .primaryColorLight
+        .tweenTo(Colors.white)
+        .lerp(lerp);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -71,7 +82,8 @@ class HomeDrawer extends StatelessWidget {
                   constraints: new BoxConstraints(
                       minHeight: MediaQuery.of(context).size.height),
                   child: new Material(
-                    color: GSYColors.white,
+                    // color: GSYColors.white,
+                    color: relateClr(context, lerp: 0.1),
                     child: new Column(
                       children: <Widget>[
                         new UserAccountsDrawerHeader(
@@ -98,13 +110,14 @@ class HomeDrawer extends StatelessWidget {
                           ),
                           decoration: new BoxDecoration(
                             //用一个BoxDecoration装饰器提供背景图片
-                            color: store.state.themeData!.primaryColor,
+                            color: store.state.themeData!.primaryColor
+                                .withAlpha(100),
                           ),
                         ),
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_reply,
-                              style: GSYConstant.normalText,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               String content = "";
@@ -120,8 +133,8 @@ class HomeDrawer extends StatelessWidget {
                                 CommonUtils.showLoadingDialog(context);
                                 IssueDao.createIssueDao(
                                     "CarGuo", "gsy_github_app_flutter", {
-                                  "title":
-                                      GSYLocalizations.i18n(context)!.home_reply,
+                                  "title": GSYLocalizations.i18n(context)!
+                                      .home_reply,
                                   "body": content
                                 }).then((result) {
                                   Navigator.pop(context);
@@ -135,7 +148,7 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_history,
-                              style: GSYConstant.normalText,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               NavigatorUtils.gotoCommonList(
@@ -154,7 +167,7 @@ class HomeDrawer extends StatelessWidget {
                                     child: new Text(
                                       GSYLocalizations.i18n(context)!
                                           .home_user_info,
-                                      style: GSYConstant.normalTextBold,
+                                      style: GSYConstant.normalTextBold.copyWith(color: relateClr(context, lerp: 0.7)),
                                     ))),
                             onTap: () {
                               NavigatorUtils.gotoUserProfileInfo(context);
@@ -162,7 +175,7 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_change_theme,
-                              style: GSYConstant.normalText,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               showThemeDialog(context, store);
@@ -171,17 +184,15 @@ class HomeDrawer extends StatelessWidget {
                             title: new Text(
                               GSYLocalizations.i18n(context)!
                                   .home_change_language,
-                              style: GSYConstant.normalText,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               CommonUtils.showLanguageDialog(context);
                             }),
-
                         new ListTile(
                             title: new Text(
-                              GSYLocalizations.i18n(context)!
-                                  .home_change_grey,
-                              style: GSYConstant.normalText,
+                              GSYLocalizations.i18n(context)!.home_change_grey,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               CommonUtils.changeGrey(store);
@@ -189,7 +200,7 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_check_update,
-                              style: GSYConstant.normalText,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               ReposDao.getNewsVersion(context, true);
@@ -199,9 +210,9 @@ class HomeDrawer extends StatelessWidget {
                               GSYLocalizations.of(context)!
                                   .currentLocalized!
                                   .home_about,
-                              style: GSYConstant.normalText,
+                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
                             ),
-                            onLongPress: (){
+                            onLongPress: () {
                               NavigatorUtils.goDebugDataPage(context);
                             },
                             onTap: () {
@@ -211,13 +222,18 @@ class HomeDrawer extends StatelessWidget {
                               });
                             }),
                         new ListTile(
-                            title: new GSYFlexButton(
-                              text: GSYLocalizations.i18n(context)!.Login_out,
-                              color: Colors.redAccent,
-                              textColor: GSYColors.textWhite,
-                              onPress: () {
-                                store.dispatch(LogoutAction(context));
-                              },
+                            title: Container(
+                              alignment: Alignment.centerRight,
+                              child: new IconButton(
+                                icon: Icon(Icons.logout_outlined),
+                                color: Theme.of(context)
+                                    .primaryColorLight
+                                    .tweenTo(Colors.red)
+                                    .lerp(0.8),
+                                onPressed: () {
+                                  store.dispatch(LogoutAction(context));
+                                },
+                              ),
                             ),
                             onTap: () {}),
                       ],

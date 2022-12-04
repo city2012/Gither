@@ -114,7 +114,7 @@ class _SearchPageState extends State<SearchPage>
 
     animation = CurvedAnimation(
       parent: controller,
-      curve: Curves.easeInCubic,
+      curve: Curves.easeInOutBack,
     )..addListener(() {
         setState(() {});
       });
@@ -144,8 +144,10 @@ class _SearchPageState extends State<SearchPage>
   Widget build(BuildContext context) {
     super.build(context); // See AutomaticKeepAliveClientMixin.
     return new Container(
+
       ///填充剩下半圆颜色
       color: endAnima ? Theme.of(context).primaryColor : Colors.transparent,
+      // color: Colors.redAccent,
       child: CRAnimation(
         minR: MediaQuery.of(context).size.height - 8,
         maxR: 0,
@@ -153,6 +155,7 @@ class _SearchPageState extends State<SearchPage>
         animation: animation as Animation<double>?,
         child: new Scaffold(
           resizeToAvoidBottomInset: false,
+
           ///右侧 Drawer
           endDrawer: new GSYSearchDrawer(
             (String? type) {
@@ -175,6 +178,9 @@ class _SearchPageState extends State<SearchPage>
             },
           ),
           appBar: new AppBar(
+              // foregroundColor: Theme.of(context).primaryColorLight,
+              // backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.8),
               leading: IconButton(
                 highlightColor: Colors.transparent,
                 icon: const BackButtonIcon(),
@@ -196,7 +202,7 @@ class _SearchPageState extends State<SearchPage>
                   onSubmitPressed: () {
                     _search();
                   },
-                  selectItemChanged: (selectIndex) {
+                  selectTypeChanged: (selectIndex) {
                     if (searchBLoC.searchText == null ||
                         searchBLoC.searchText?.trim().length == 0) {
                       return;
@@ -207,13 +213,19 @@ class _SearchPageState extends State<SearchPage>
                     searchBLoC.selectIndex = selectIndex;
                     _resolveSelectIndex();
                   })),
-          body: GSYPullLoadWidget(
-            pullLoadWidgetControl,
-            (BuildContext context, int index) => _renderItem(index),
-            handleRefresh,
-            onLoadMore,
-            refreshKey: refreshIndicatorKey,
+          body: Container(
+            // color: Colors.white70,
+            padding: EdgeInsets.only(top: 20),
+            color: Theme.of(context).primaryColorLight.withOpacity(0.8),
+            child: GSYPullLoadWidget(
+              pullLoadWidgetControl,
+                  (BuildContext context, int index) => _renderItem(index),
+              handleRefresh,
+              onLoadMore,
+              refreshKey: refreshIndicatorKey,
+            )
           ),
+
         ),
       ),
     );
@@ -222,9 +234,9 @@ class _SearchPageState extends State<SearchPage>
 
 ///实现 PreferredSizeWidget 实现自定义 appbar bottom 控件
 class SearchBottom extends StatelessWidget implements PreferredSizeWidget {
-  final SelectItemChanged? onSubmitted;
+  final SelectTypeChanged? onSubmitted;
 
-  final SelectItemChanged? selectItemChanged;
+  final SelectTypeChanged? selectTypeChanged;
 
   final VoidCallback? onSubmitPressed;
   final TextEditingController? textEditingController;
@@ -232,33 +244,41 @@ class SearchBottom extends StatelessWidget implements PreferredSizeWidget {
   SearchBottom(
       {this.onSubmitted,
       this.onSubmitPressed,
-      this.selectItemChanged,
+      this.selectTypeChanged,
       this.textEditingController});
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        GSYSearchInputWidget(
-            controller: textEditingController,
-            onSubmitted: onSubmitted,
-            onSubmitPressed: onSubmitPressed),
-        new GSYSelectItemWidget(
-          [
-            GSYLocalizations.i18n(context)!.search_tab_repos,
-            GSYLocalizations.i18n(context)!.search_tab_user,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GSYSearchInputWidget(
+                controller: textEditingController,
+                onSubmitted: onSubmitted,
+                onSubmitPressed: onSubmitPressed),
+            new GSYSelectItemWidget(
+              [
+                GSYLocalizations.i18n(context)!.search_tab_repos,
+                GSYLocalizations.i18n(context)!.search_tab_user,
+              ],
+              selectTypeChanged,
+              elevation: 0.0,
+              margin: const EdgeInsets.all(5.0),
+            )
           ],
-          selectItemChanged,
-          elevation: 0.0,
-          margin: const EdgeInsets.all(5.0),
         )
+
       ],
     );
   }
 
   @override
   Size get preferredSize {
-    return new Size.fromHeight(100.0);
+    return new Size.fromHeight(70.0);
   }
 }
 

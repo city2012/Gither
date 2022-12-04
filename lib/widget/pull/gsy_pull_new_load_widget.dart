@@ -5,6 +5,7 @@ import 'package:gsy_github_app_flutter/widget/pull/gsy_refresh_sliver.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
+import 'package:supercharged/supercharged.dart';
 
 import 'custom_bouncing_scroll_physics.dart';
 import 'gsy_flare_pull_controller.dart';
@@ -187,41 +188,44 @@ class _GSYPullLoadWidgetState extends State<GSYPullLoadWidget>
   Widget build(BuildContext context) {
     if (widget.userIos) {
       ///用ios模式的下拉刷新
-      return new NotificationListener(
-        onNotification: (ScrollNotification notification) {
-          ///通知 CupertinoSliverRefreshControl 当前的拖拽状态
-          sliverRefreshKey.currentState!.notifyScrollNotification(notification);
-          return false;
-        },
-        child: CustomScrollView(
-          controller: _scrollController,
+      return new Container(
+          color: Theme.of(context).primaryColorDark.withOpacity(0.8),
+          child: new NotificationListener(
+            onNotification: (ScrollNotification notification) {
+              ///通知 CupertinoSliverRefreshControl 当前的拖拽状态
+              sliverRefreshKey.currentState!
+                  .notifyScrollNotification(notification);
+              return false;
+            },
+            child: CustomScrollView(
+              controller: _scrollController,
 
-          ///回弹效果
-          physics: const CustomBouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-              refreshHeight: iosRefreshHeight),
-          slivers: <Widget>[
-            ///控制显示刷新的 CupertinoSliverRefreshControl
-            IOS.CupertinoSliverRefreshControl(
-              key: sliverRefreshKey,
-              refreshIndicatorExtent: iosRefreshIndicatorExtent,
-              refreshTriggerPullDistance: iosRefreshHeight,
-              onRefresh: handleRefresh,
-              builder: buildSimpleRefreshIndicator,
-            ),
-            SliverSafeArea(
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return _getItem(index);
-                  },
-                  childCount: _getListCount(),
+              ///回弹效果
+              physics: const CustomBouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                  refreshHeight: iosRefreshHeight),
+              slivers: <Widget>[
+                ///控制显示刷新的 CupertinoSliverRefreshControl
+                IOS.CupertinoSliverRefreshControl(
+                  key: sliverRefreshKey,
+                  refreshIndicatorExtent: iosRefreshIndicatorExtent,
+                  refreshTriggerPullDistance: iosRefreshHeight,
+                  onRefresh: handleRefresh,
+                  builder: buildSimpleRefreshIndicator,
                 ),
-              ),
+                SliverSafeArea(
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return _getItem(index);
+                      },
+                      childCount: _getListCount(),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      );
+          ));
     }
 
     return new RefreshIndicator(
@@ -357,7 +361,7 @@ class GSYPullLoadWidgetControl extends ChangeNotifier {
 
   List? get dataList => _dataList;
 
- set dataList(List? value) {
+  set dataList(List? value) {
     _dataList!.clear();
     if (value != null) {
       _dataList!.addAll(value);

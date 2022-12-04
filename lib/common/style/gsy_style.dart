@@ -43,6 +43,8 @@ class GSYColors {
 
   static const Color mainTextColor = primaryDarkValue;
   static const Color textColorWhite = white;
+
+  static const cardFactor = 0.45;
 }
 
 ///文本样式

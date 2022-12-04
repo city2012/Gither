@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -73,36 +74,39 @@ class _WelcomePageState extends State<WelcomePage> {
         return Material(
           child: new Container(
             color: GSYColors.white,
-            child: Stack(
-              children: <Widget>[
-                new Center(
-                  child: new Image(
-                      image: new AssetImage('static/images/welcome.png')),
-                ),
-                Align(
-                  alignment: Alignment(0.0, 0.3),
-                  child: DiffScaleText(
-                    text: text,
-                    textStyle: GoogleFonts.akronim().copyWith(
-                      color: GSYColors.primaryDarkValue,
-                      fontSize: fontSize,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+              child: Stack(
+                children: <Widget>[
+                  new Center(
+                    child: new Image(
+                        image: new AssetImage('static/images/welcome.png')),
+                  ),
+                  Align(
+                    alignment: Alignment(0.0, 0.3),
+                    child: DiffScaleText(
+                      text: text,
+                      textStyle: GoogleFonts.akronim().copyWith(
+                        color: GSYColors.primaryDarkValue,
+                        fontSize: fontSize,
+                      ),
                     ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment(0.0, 0.8),
-                  child: Mole(),
-                ),
-                new Align(
-                  alignment: Alignment(0.0, .9),
-                  child: new Container(
-                    width: size,
-                    height: size,
-                    child: RiveAnimation.asset('static/file/launch.riv'),
+                  Align(
+                    alignment: Alignment(0.0, 0.8),
+                    child: Mole(),
                   ),
-                )
-              ],
-            ),
+                  new Align(
+                    alignment: Alignment(0.0, .9),
+                    child: new Container(
+                      width: size,
+                      height: size,
+                      child: RiveAnimation.asset('static/file/launch.riv'),
+                    ),
+                  )
+                ],
+              ),
+            )
           ),
         );
       },

@@ -12,6 +12,7 @@ import 'package:gsy_github_app_flutter/page/trend/trend_page.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_tabbar_widget.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_title_bar.dart';
 import 'package:gsy_github_app_flutter/page/home/widget/home_drawer.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 主页
@@ -89,15 +90,18 @@ class _HomePageState extends State<HomePage> {
               break;
           }
         },
-        backgroundColor: GSYColors.primarySwatch,
-        indicatorColor: GSYColors.white,
+        // backgroundColor: GSYColors.primarySwatch,
+        // indicatorColor: GSYColors.white,
+        backgroundColor: Colors.red,
+        indicatorColor: Theme.of(context).primaryColorDark.tweenTo(Colors.white).lerp(0.2),
         title: GSYTitleBar(
-          GSYLocalizations.of(context)!.currentLocalized!.app_name,
+          "",
+          // GSYLocalizations.of(context)!.currentLocalized!.app_name,
           iconData: GSYICons.MAIN_SEARCH,
           needRightLocalIcon: true,
           onRightIconPressed: (centerPosition) {
             NavigatorUtils.goSearchPage(context, centerPosition);
-          },
+          }
         ),
       ),
     );

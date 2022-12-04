@@ -19,6 +19,7 @@ import 'package:gsy_github_app_flutter/widget/pull/nested/nested_refresh.dart';
 import 'package:gsy_github_app_flutter/widget/state/gsy_list_state.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_select_item_widget.dart';
 import 'package:gsy_github_app_flutter/page/repos/widget/repos_header_item.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 仓库详情动态信息页面
@@ -234,20 +235,29 @@ class ReposDetailInfoPageState extends State<ReposDetailInfoPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ScopedModelDescendant<ReposDetailModel>(
-      builder: (context, child, model) {
-        return GSYNestedPullLoadWidget(
-          pullLoadWidgetControl,
-          (BuildContext context, int index) => _renderEventItem(index),
-          handleRefresh,
-          onLoadMore,
-          refreshKey: refreshIKey,
-          scrollController: scrollController,
-          headerSliverBuilder: (context, _) {
-            return _sliverBuilder(context, _);
-          },
-        );
-      },
+    return Container(
+      color: Theme.of(context).primaryColorDark.withOpacity(0.8),
+      child: Column(
+        children: [
+          Expanded(
+            child: ScopedModelDescendant<ReposDetailModel>(
+              builder: (context, child, model) {
+                return GSYNestedPullLoadWidget(
+                  pullLoadWidgetControl,
+                  (BuildContext context, int index) => _renderEventItem(index),
+                  handleRefresh,
+                  onLoadMore,
+                  refreshKey: refreshIKey,
+                  scrollController: scrollController,
+                  headerSliverBuilder: (context, _) {
+                    return _sliverBuilder(context, _);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 

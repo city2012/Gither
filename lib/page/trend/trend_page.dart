@@ -253,7 +253,8 @@ class TrendPageState extends State<TrendPage>
     return new StoreBuilder<GSYState>(
       builder: (context, store) {
         return new Scaffold(
-          backgroundColor: GSYColors.mainBackgroundColor,
+          // backgroundColor: GSYColors.mainBackgroundColor,
+          backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.8),
 
           ///采用目前采用纯 bloc 的 rxdart(stream) + streamBuilder
           body: StreamBuilder<List<TrendingRepoModel>?>(

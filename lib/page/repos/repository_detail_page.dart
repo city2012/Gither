@@ -261,7 +261,8 @@ class _RepositoryDetailPageState extends State<RepositoryDetailPage>
 
             ///底部bar，增加对悬浮按键的缺省容器处理
             bottomBar: GSYBottomAppBar(
-                color: GSYColors.white,
+                color: Colors.yellowAccent.shade700,
+                // color: GSYColors.white,
                 fabLocation: FloatingActionButtonLocation.endDocked,
                 shape: CircularNotchedRectangle(),
                 rowContents: (model?.footerButtons == null)

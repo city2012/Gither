@@ -108,9 +108,10 @@ class _GSYPullLoadWidgetState extends State<GSYPullLoadWidget> {
     return new RefreshIndicator(
       ///GlobalKey，用户外部获取RefreshIndicator的State，做显示刷新
       key: widget.refreshKey,
-
+      color: Theme.of(context).primaryColorLight,
+      backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.65),
       ///下拉刷新触发，返回的是一个Future
-      onRefresh: widget.onRefresh ?? ()async{},
+      onRefresh: widget.onRefresh ?? () async {},
       child: new ListView.builder(
         ///保持ListView任何情况都能滚动，解决在RefreshIndicator的兼容问题。
         physics: const AlwaysScrollableScrollPhysics(),
@@ -136,13 +137,16 @@ class _GSYPullLoadWidgetState extends State<GSYPullLoadWidget> {
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          TextButton(
-            onPressed: () {},
-            child: new Image(
-                image: new AssetImage(GSYICons.DEFAULT_USER_ICON),
-                width: 70.0,
-                height: 70.0),
-          ),
+          ClipOval(
+              clipBehavior: Clip.antiAlias,
+              child: TextButton(
+
+                onPressed: () {},
+                child: new Image(
+                    image: new AssetImage(GSYICons.DEFAULT_USER_ICON),
+                    width: 70.0,
+                    height: 70.0),
+              )),
           Container(
             child: Text(GSYLocalizations.i18n(context)!.app_empty,
                 style: GSYConstant.normalText),

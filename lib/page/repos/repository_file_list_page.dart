@@ -191,12 +191,15 @@ class RepositoryDetailFileListPageState extends State<RepositoryDetailFileListPa
         },
         child: ScopedModelDescendant<ReposDetailModel>(
           builder: (context, child, model) {
-            return GSYPullLoadWidget(
-              pullLoadWidgetControl,
-              (BuildContext context, int index) => _renderEventItem(index),
-              handleRefresh,
-              onLoadMore,
-              refreshKey: refreshIndicatorKey,
+            return Container(
+              color: Theme.of(context).primaryColorLight.withOpacity(0.8),
+              child: GSYPullLoadWidget(
+                pullLoadWidgetControl,
+                (BuildContext context, int index) => _renderEventItem(index),
+                handleRefresh,
+                onLoadMore,
+                refreshKey: refreshIndicatorKey,
+              ),
             );
           },
         ),

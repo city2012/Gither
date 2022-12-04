@@ -141,20 +141,21 @@ class RepositoryDetailIssuePageState extends State<RepositoryDetailIssuePage>
     return ScopedModelDescendant<ReposDetailModel>(
       builder: (context, child, model) {
         return new Scaffold(
-          backgroundColor: GSYColors.mainBackgroundColor,
-          appBar: new AppBar(
-            leading: new Container(),
-            flexibleSpace: (model?.repository?.hasIssuesEnabled == false)
-                ? new Container()
-                : GSYSearchInputWidget(onSubmitted: (value) {
-                    this.searchText = value;
-                    _resolveSelectIndex();
-                  }, onSubmitPressed: () {
-                    _resolveSelectIndex();
-                  }),
-            elevation: 0.0,
-            backgroundColor: GSYColors.mainBackgroundColor,
-          ),
+          // backgroundColor: GSYColors.mainBackgroundColor,
+          backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.8),
+          // appBar: new AppBar(
+          //   // leading: new Container(),
+          //   flexibleSpace: (model?.repository?.hasIssuesEnabled == false)
+          //       ? new Container()
+          //       : GSYSearchInputWidget(onSubmitted: (value) {
+          //           this.searchText = value;
+          //           _resolveSelectIndex();
+          //         }, onSubmitPressed: () {
+          //           _resolveSelectIndex();
+          //         }),
+          //   elevation: 0.0,
+          //   backgroundColor: GSYColors.mainBackgroundColor,
+          // ),
           body: (model?.repository?.hasIssuesEnabled == false)
               ? new Container(
                   alignment: Alignment.center,

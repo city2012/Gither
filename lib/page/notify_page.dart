@@ -151,12 +151,15 @@ class _NotifyPageState extends State<NotifyPage>
         ),
         elevation: 4.0,
       ),
-      body: GSYPullLoadWidget(
-        pullLoadWidgetControl,
-        (BuildContext context, int index) => _renderItem(index),
-        handleRefresh,
-        onLoadMore,
-        refreshKey: refreshIndicatorKey,
+      body: Container(
+        color: Theme.of(context).primaryColorLight.withOpacity(0.8),
+        child: GSYPullLoadWidget(
+          pullLoadWidgetControl,
+          (BuildContext context, int index) => _renderItem(index),
+          handleRefresh,
+          onLoadMore,
+          refreshKey: refreshIndicatorKey,
+        ),
       ),
     );
   }

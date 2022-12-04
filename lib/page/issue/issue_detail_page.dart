@@ -78,6 +78,7 @@ class _IssueDetailPageState extends State<IssueDetailPage>
                   decoration: new BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                       color: GSYColors.white,
+                      // color: Colors.redAccent,
                       border: new Border.all(
                           color: GSYColors.subTextColor, width: 0.3)),
                   margin: EdgeInsets.all(10.0),
@@ -394,12 +395,15 @@ class _IssueDetailPageState extends State<IssueDetailPage>
           },
         ),
       ),
-      body: GSYPullLoadWidget(
-        pullLoadWidgetControl,
-        (BuildContext context, int index) => _renderEventItem(index),
-        handleRefresh,
-        onLoadMore,
-        refreshKey: refreshIndicatorKey,
+      body: Container(
+        color: Theme.of(context).primaryColorLight,
+        child: GSYPullLoadWidget(
+          pullLoadWidgetControl,
+          (BuildContext context, int index) => _renderEventItem(index),
+          handleRefresh,
+          onLoadMore,
+          refreshKey: refreshIndicatorKey,
+        ),
       ),
     );
   }

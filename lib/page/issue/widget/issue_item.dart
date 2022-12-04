@@ -7,6 +7,7 @@ import 'package:gsy_github_app_flutter/widget/gsy_card_item.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_icon_text.dart';
 import 'package:gsy_github_app_flutter/widget/markdown/gsy_markdown_widget.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_user_icon_widget.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * Issue相关item
@@ -93,64 +94,93 @@ class IssueItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new GSYCardItem(
-      child: new InkWell(
-        onTap: onPressed,
-        onLongPress: onLongPress,
-        child: new Padding(
-          padding: new EdgeInsets.only(
-              left: 5.0, top: 5.0, right: 10.0, bottom: 8.0),
-          child: new Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ///头像
-                new GSYUserIconWidget(
-                    width: 30.0,
-                    height: 30.0,
-                    image: issueItemViewModel.actionUserPic,
-                    onPressed: () {
-                      NavigatorUtils.goPerson(
-                          context, issueItemViewModel.actionUser);
-                    }),
-                new Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+        margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 10),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(6),
+                topRight: Radius.circular(6),
+                bottomLeft: Radius.circular(6),
+                bottomRight: Radius.circular(6))),
+        elevation: 5.0,
+        color:
+            Theme.of(context).primaryColorLight.tweenTo(Colors.white).lerp(GSYColors.cardFactor),
+        child: new Container(
+            margin: EdgeInsets.only(left: 5),
+            padding: EdgeInsets.only(left: 5, right: 10, bottom: 3, top: 5),
+            decoration: BoxDecoration(
+              // color: index! % 2 == 0 ? Colors.lightBlue : Colors.lightGreen,
+              color: Theme.of(context).primaryColorDark,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6)),
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.grey.shade300,
+              //       blurRadius: 1,
+              //       spreadRadius: 3)
+              // ]
+            ),
+            child: new InkWell(
+              onTap: onPressed,
+              onLongPress: onLongPress,
+              child: new Padding(
+                padding: new EdgeInsets.only(
+                    left: 5.0, top: 5.0, right: 10.0, bottom: 8.0),
+                child: new Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Row(
-                        children: <Widget>[
-                          ///用户名
-                          new Expanded(
-                              child: new Text(issueItemViewModel.actionUser!,
-                                  style: GSYConstant.smallTextBold)),
-                          new Text(
-                            issueItemViewModel.actionTime,
-                            style: GSYConstant.smallSubText,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                      ///头像
+                      new GSYUserIconWidget(
+                          width: 30.0,
+                          height: 30.0,
+                          image: issueItemViewModel.actionUserPic,
+                          onPressed: () {
+                            NavigatorUtils.goPerson(
+                                context, issueItemViewModel.actionUser);
+                          }),
+                      new Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            new Row(
+                              children: <Widget>[
+                                ///用户名
+                                new Expanded(
+                                    child: new Text(
+                                        issueItemViewModel.actionUser!,
+                                        style: GSYConstant.smallTextBold.copyWith(color: GSYColors.primaryLightValue.tweenTo(Colors.white).lerp(0.8)))),
+                                new Text(
+                                  issueItemViewModel.actionTime,
+                                  style: GSYConstant.smallSubText.copyWith(color: GSYColors.primaryLightValue.tweenTo(Colors.white).lerp(0.8)),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
 
-                      ///评论内容
-                      _renderCommentText(),
-                      new Padding(
-                        padding: new EdgeInsets.only(
-                            left: 0.0, top: 2.0, right: 0.0, bottom: 0.0),
+                            ///评论内容
+                            _renderCommentText(),
+                            new Padding(
+                              padding: new EdgeInsets.only(
+                                  left: 0.0, top: 2.0, right: 0.0, bottom: 0.0),
+                            ),
+                            _renderBottomContainer(),
+                          ],
+                        ),
                       ),
-                      _renderBottomContainer(),
-                    ],
-                  ),
-                ),
-              ]),
-        ),
-      ),
-    );
+                    ]),
+              ),
+            )));
   }
 }
 
 class IssueItemViewModel {
   String actionTime = "---";
   String? actionUser = "---";
-  String? actionUserPic ;
+  String? actionUserPic;
+
   String issueComment = "---";
   String commentCount = "---";
   String? state = "---";

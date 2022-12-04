@@ -4,6 +4,7 @@ import 'dart:ui' show lerpDouble;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 
 const double _kTabHeight = 46.0;
 const double _kTextAndIconTabHeight = 72.0;
@@ -780,12 +781,18 @@ class _TabBarState extends State<TabBar> {
     // there's no good way for us to find out what the color is so we don't.
     if (color.value == Material.of(context)!.color?.value) color = Colors.white;
 
-    return UnderlineTabIndicator(
-      insets: widget.indicatorPadding,
-      borderSide: BorderSide(
-        width: widget.indicatorWeight,
+    // return UnderlineTabIndicator(
+    //   insets: widget.indicatorPadding,
+    //   borderSide: BorderSide(
+    //     width: widget.indicatorWeight,
+    //     color: color,
+    //   ),
+    // );
+
+
+    return BoxDecoration(
         color: color,
-      ),
+        borderRadius: BorderRadius.horizontal(left: Radius.circular(30), right: Radius.circular(30))
     );
   }
 

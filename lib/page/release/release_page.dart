@@ -136,12 +136,15 @@ class _ReleasePageState extends State<ReleasePage>
         ),
         elevation: 4.0,
       ),
-      body: GSYPullLoadWidget(
-        pullLoadWidgetControl,
-        (BuildContext context, int index) => _renderEventItem(index),
-        handleRefresh,
-        onLoadMore,
-        refreshKey: refreshIndicatorKey,
+      body: Container(
+        color: Theme.of(context).primaryColorLight.withOpacity(0.8),
+        child: GSYPullLoadWidget(
+          pullLoadWidgetControl,
+          (BuildContext context, int index) => _renderEventItem(index),
+          handleRefresh,
+          onLoadMore,
+          refreshKey: refreshIndicatorKey,
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:gsy_github_app_flutter/model/RepoCommit.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_card_item.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_user_icon_widget.dart';
 import 'package:gsy_github_app_flutter/model/Notification.dart' as Model;
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 事件Item
@@ -51,34 +52,72 @@ class GSYEventItem extends StatelessWidget {
         : Container();
     return new Container(
       child: new GSYCardItem(
-          margin: EdgeInsets.only(left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
-          child: new TextButton(
-              onPressed: onPressed,
-              child: new Padding(
-                padding: new EdgeInsets.only(
-                    left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
-                child: new Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        userImage,
-                        new Expanded(
-                            child: new Text(eventViewModel.actionUser!,
-                                style: GSYConstant.smallTextBold)),
-                        new Text(eventViewModel.actionTime,
-                            style: GSYConstant.smallSubText),
-                      ],
-                    ),
-                    new Container(
-                        child: new Text(eventViewModel.actionTarget!,
-                            style: GSYConstant.smallTextBold),
-                        margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
-                        alignment: Alignment.topLeft),
-                    des,
-                  ],
-                ),
-              ))),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 5),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6))),
+          elevation: 5.0,
+          color: Theme.of(context).primaryColorLight.tweenTo(Colors.white).lerp(GSYColors.cardFactor),
+          // color: Theme.of(context).primaryColorDark,
+          // margin: EdgeInsets.only(left: 10.0, top: 5.0, right: 10.0, bottom: 5.0),
+          child: Container(
+            margin: EdgeInsets.only(left: 5),
+            padding: EdgeInsets.only(left: 5, right: 10, bottom: 3),
+            decoration: BoxDecoration(
+
+              color: Theme.of(context).primaryColorDark,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(6),
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6)),
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: Colors.grey.shade300,
+              //       blurRadius: 1,
+              //       spreadRadius: 3)
+              // ]
+            ),
+            child: new TextButton(
+                onPressed: onPressed,
+                child: new Padding(
+                  padding: new EdgeInsets.only(
+                      left: 0.0, top: 5.0, right: 0.0, bottom: 5.0),
+                  child: new Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+
+                      new Row(
+                        children: <Widget>[
+                          // 图片
+                          userImage,
+                          // 名字
+                          new Expanded(
+                              child: new Text(eventViewModel.actionUser!,
+                                  style: GSYConstant.smallTextBold.copyWith(color: GSYColors.primaryLightValue.tweenTo(Colors.white).lerp(0.8)))),
+                          // 执行时间
+                          new Text(eventViewModel.actionTime,
+                              style: GSYConstant.smallSubText.copyWith(color: GSYColors.primaryLightValue.tweenTo(Colors.white).lerp(0.8))),
+                        ],
+                      ),
+                      // 目标
+                      new Container(
+                          child: new Text(eventViewModel.actionTarget!,
+                              style: GSYConstant.smallTextBold.copyWith(color: GSYColors.primaryLightValue.tweenTo(Colors.white).lerp(0.8))),
+                          margin: new EdgeInsets.only(top: 6.0, bottom: 2.0),
+                          alignment: Alignment.topLeft),
+                      // 描述
+                      des,
+                    ],
+                  ),
+                )
+            ),
+          )
+
+    ),
     );
   }
 }
