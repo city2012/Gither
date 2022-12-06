@@ -185,6 +185,8 @@ class _GSYTabBarState extends State<GSYTabBarWidget>
           controller: _pageController,
           children: widget.tabViews!,
           onPageChanged: _navigationPageChanged,
+          allowImplicitScrolling: true,
+
         ),
         bottomNavigationBar: new Material(
           //为了适配主题风格，包一层Material实现风格套用

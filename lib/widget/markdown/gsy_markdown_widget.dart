@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:gsy_github_app_flutter/common/utils/common_utils.dart';
 import 'package:gsy_github_app_flutter/widget/markdown/syntax_high_lighter.dart';
@@ -159,7 +160,7 @@ class GSYMarkdownWidget extends StatelessWidget {
                     "?raw=true";
 
                 ///增加点击
-                match = "[![]($newSrc)]($newSrc)";
+                match = "[!---[]($newSrc)]($newSrc)";
               }
             }
           }
@@ -184,17 +185,23 @@ class GSYMarkdownWidget extends StatelessWidget {
           data: _getMarkDownData(markdownData!),
           imageBuilder: (Uri? uri, String? title, String? alt) {
             if (uri == null || uri.toString().isEmpty) return const SizedBox();
-            final StringList parts = uri.toString().split('#');
-            double? width;
-            double? height;
-            if (parts.length == 2) {
-              final StringList dimensions = parts.last.split('x');
-              if (dimensions.length == 2) {
-                width = double.parse(dimensions[0]);
-                height = double.parse(dimensions[1]);
+            try{
+              final StringList parts = uri.toString().split('#');
+              double? width;
+              double? height;
+              if (parts.length == 2) {
+                final StringList dimensions = parts.last.split('x');
+                if (dimensions.length == 2) {
+                  width = double.parse(dimensions[0]);
+                  height = double.parse(dimensions[1]);
+                }
               }
+              return kDefaultImageBuilder(uri, "", width, height);
+            }catch(e){
+              print("!-------------");
+              return SvgPicture.network(uri.toString());
             }
-            return kDefaultImageBuilder(uri, "", width, height);
+
           },
           onTapLink: (String text, String? href, String title) {
             CommonUtils.launchUrl(context, href);
@@ -220,6 +227,7 @@ Widget kDefaultImageBuilder(
   double? width,
   double? height,
 ) {
+  print("Ahead uri :: "+uri.toString());
   if (uri.scheme.isEmpty) {
     return SizedBox();
   }
@@ -234,7 +242,12 @@ Widget kDefaultImageBuilder(
         ? Uri.parse(imageDirectory + uri.toString())
         : uri;
     if (fileUri.scheme == 'http' || fileUri.scheme == 'https') {
-      return Image.network(fileUri.toString(), width: width, height: height);
+        return Image.network(
+            fileUri.toString(),
+            width: width,
+            height: height
+        );
+
     } else {
       return Image.file(File.fromUri(fileUri), width: width, height: height);
     }
