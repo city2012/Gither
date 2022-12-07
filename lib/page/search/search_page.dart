@@ -109,12 +109,13 @@ class _SearchPageState extends State<SearchPage>
 
     controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 400),
     );
 
     animation = CurvedAnimation(
       parent: controller,
-      curve: Curves.easeInOutBack,
+      // curve: Curves.easeInOutBack,
+      curve: Curves.easeInOut,
     )..addListener(() {
         setState(() {});
       });

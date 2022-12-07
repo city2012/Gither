@@ -9,10 +9,11 @@ import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/page/dynamic/dynamic_page.dart';
 import 'package:gsy_github_app_flutter/page/my_page.dart';
 import 'package:gsy_github_app_flutter/page/trend/trend_page.dart';
-import 'package:gsy_github_app_flutter/widget/gsy_tabbar_widget.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_title_bar.dart';
 import 'package:gsy_github_app_flutter/page/home/widget/home_drawer.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../../widget/home_tabbar_widget.dart';
 
 /**
  * 主页
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     return Future.value(false);
   }
 
-  _renderTab(icon, text) {
+  Tab _renderTab(icon, text) {
     return new Tab(
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    List<Widget> tabs = [
+    List<Tab> tabs = [
       _renderTab(GSYICons.MAIN_DT, GSYLocalizations.i18n(context)!.home_dynamic),
       _renderTab(GSYICons.MAIN_QS, GSYLocalizations.i18n(context)!.home_trend),
       _renderTab(GSYICons.MAIN_MY, GSYLocalizations.i18n(context)!.home_my),
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
       onWillPop: () {
         return _dialogExitApp(context);
       },
-      child: new GSYTabBarWidget(
+      child: new HomeTabBarWidget(
         drawer: new HomeDrawer(),
         type: TabType.bottom,
         tabItems: tabs,
@@ -90,9 +91,6 @@ class _HomePageState extends State<HomePage> {
               break;
           }
         },
-        // backgroundColor: GSYColors.primarySwatch,
-        // indicatorColor: GSYColors.white,
-        backgroundColor: Colors.red,
         indicatorColor: Theme.of(context).primaryColorDark.tweenTo(Colors.white).lerp(0.2),
         title: GSYTitleBar(
           "",

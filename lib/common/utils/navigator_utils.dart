@@ -207,23 +207,35 @@ class NavigatorUtils {
       context: context,
       pageBuilder: (BuildContext buildContext, Animation<double> animation,
           Animation<double> secondaryAnimation) {
-        return Builder(builder: (BuildContext context) {
+        return
+          Builder(builder: (BuildContext context) {
           return pageContainer(SearchPage(centerPosition), context);
         });
       },
+
       barrierDismissible: false,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Color(0x01000000),
-      transitionDuration: const Duration(milliseconds: 150),
+      transitionDuration: const Duration(milliseconds: 200),
       transitionBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation, Widget child) {
-        return FadeTransition(
-          opacity: CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeOut,
-          ),
-          child: child,
+        // return FadeTransition(
+        //   opacity: CurvedAnimation(
+        //     parent: animation,
+        //     curve: Curves.easeOut,
+        //   ),
+        //   child: child,
+        // );
+        return SlideTransition(
+            child: child,
+            position: Tween<Offset>(begin:Offset(-1.0,0.0),end:Offset(0.0,0.0)).animate(CurvedAnimation(parent: animation, curve:  Curves.fastOutSlowIn)),
         );
+
+
+        // return ScaleTransition(
+        //   scale: Tween<double>(begin: 0.0,end: 1).animate(CurvedAnimation(parent: animation, curve:  Curves.fastOutSlowIn)),
+        //   child: child,
+        // );
       },
     );
   }
