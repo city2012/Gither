@@ -156,13 +156,13 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
 
         if (store.state.grey) {
           ///mode one
-          app = ColorFiltered(
-              colorFilter: ColorFilter.mode(Colors.grey, BlendMode.saturation),
-              child: app);
-          ///mode tow
           // app = ColorFiltered(
-          //     colorFilter: greyscale,
+          //     colorFilter: ColorFilter.mode(Colors.grey, BlendMode.saturation),
           //     child: app);
+          ///mode tow
+          app = ColorFiltered(
+              colorFilter: greyscale,
+              child: app);
         }
 
         return app;

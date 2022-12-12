@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:../../window_to_front.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gsy_github_app_flutter/page/code_detail_page_web.dart';
@@ -22,6 +24,9 @@ import 'package:gsy_github_app_flutter/page/repos/repository_detail_page.dart';
 import 'package:gsy_github_app_flutter/page/search/search_page.dart';
 import 'package:gsy_github_app_flutter/page/user_profile_page.dart';
 import 'package:gsy_github_app_flutter/widget/never_overscroll_indicator.dart';
+
+import '../../widget/git_hub_login_widget.dart';
+import '../config/ignoreConfig.dart';
 
 /**
  * 导航栏
@@ -259,7 +264,25 @@ class NavigatorUtils {
   }
 
   ///登陆Web页面
+  // static Future goLoginWebView(BuildContext context, String url, String title) {
+  //   return NavigatorRouter(context, new LoginWebView(url, title));
+  // }
+
+  ///登陆Web页面
   static Future goLoginWebView(BuildContext context, String url, String title) {
+    if(Platform.isMacOS){
+
+      return NavigatorRouter(context, new GithubLoginWidget(
+          builder: (context, httpClient) {
+            WindowToFront.active();
+            return HomePage();
+            },
+          githubClientId: NetConfig.CLIENT_ID,
+          githubClientSecret: NetConfig.CLIENT_SECRET,
+          githubScopes: ["user","repo","gist","notifications","read:org","workflow"],
+      )
+      );
+    }
     return NavigatorRouter(context, new LoginWebView(url, title));
   }
 
