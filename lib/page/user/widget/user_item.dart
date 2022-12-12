@@ -24,7 +24,7 @@ class UserItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var me = StoreProvider.of<GSYState>(context).state.userInfo!;
+    User me = StoreProvider.of<GSYState>(context).state.userInfo!;
     Widget userImage = new IconButton(
         padding: EdgeInsets.only(top: 0.0, left: 0.0, bottom: 0.0, right: 10.0),
         icon: new ClipOval(

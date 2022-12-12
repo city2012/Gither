@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 ///颜色
 class GSYColors {
   static const int primaryIntValue = 0xFF24292E;
+  static const int primaryLightIntValue = 0xFFFFFFFF;
+  static const int primaryMiIntValue = 0xffececec;
+  static const int defaultPrimary = 0xff2196f3;
 
   static const MaterialColor primarySwatch = const MaterialColor(
     primaryIntValue,
@@ -19,6 +22,23 @@ class GSYColors {
       900: const Color(primaryIntValue),
     },
   );
+
+  static const MaterialColor primaryLightSwatch = const MaterialColor(
+    primaryLightIntValue,
+    const <int, Color>{
+      50: const Color(primaryLightIntValue),
+      100: const Color(primaryLightIntValue),
+      200: const Color(primaryLightIntValue),
+      300: const Color(primaryLightIntValue),
+      400: const Color(primaryLightIntValue),
+      500: const Color(primaryLightIntValue),
+      600: const Color(primaryLightIntValue),
+      700: const Color(primaryLightIntValue),
+      800: const Color(primaryLightIntValue),
+      900: const Color(primaryLightIntValue),
+    },
+  );
+
 
   static const String primaryValueString = "#24292E";
   static const String primaryLightValueString = "#42464b";

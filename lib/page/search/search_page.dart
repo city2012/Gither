@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gsy_github_app_flutter/common/localization/default_localizations.dart';
 import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/page/search/search_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:gsy_github_app_flutter/page/search/widget/gsy_search_input_widge
 import 'package:gsy_github_app_flutter/widget/gsy_select_item_widget.dart';
 import 'package:gsy_github_app_flutter/page/repos/widget/repos_item.dart';
 import 'package:gsy_github_app_flutter/page/user/widget/user_item.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 搜索页面
@@ -148,14 +150,13 @@ class _SearchPageState extends State<SearchPage>
 
       ///填充剩下半圆颜色
       color: endAnima ? Theme.of(context).primaryColor : Colors.transparent,
-      // color: Colors.redAccent,
+      // color: Colors.transparent,
       child: CRAnimation(
         minR: MediaQuery.of(context).size.height - 8,
         maxR: 0,
         offset: widget.centerPosition,
         animation: animation as Animation<double>?,
         child: new Scaffold(
-          resizeToAvoidBottomInset: false,
 
           ///右侧 Drawer
           endDrawer: new GSYSearchDrawer(
@@ -179,9 +180,13 @@ class _SearchPageState extends State<SearchPage>
             },
           ),
           appBar: new AppBar(
+              // systemOverlayStyle:  SystemUiOverlayStyle.dark.copyWith(
+              //   //仅安卓有效
+              //   statusBarColor: Colors.white.withOpacity(0.7),
+              // ),
               // foregroundColor: Theme.of(context).primaryColorLight,
-              // backgroundColor: Theme.of(context).primaryColor,
-              backgroundColor: Theme.of(context).primaryColorLight.withOpacity(0.8),
+              // backgroundColor: Theme.of(context).primaryColor.tweenTo(Colors.white).lerp(0.3),
+              backgroundColor: Theme.of(context).primaryColorDark.withOpacity(0.8),
               leading: IconButton(
                 highlightColor: Colors.transparent,
                 icon: const BackButtonIcon(),
@@ -213,11 +218,14 @@ class _SearchPageState extends State<SearchPage>
                     }
                     searchBLoC.selectIndex = selectIndex;
                     _resolveSelectIndex();
-                  })),
+                  }),
+
+
+          ),
           body: Container(
             // color: Colors.white70,
-            padding: EdgeInsets.only(top: 20),
-            color: Theme.of(context).primaryColorLight.withOpacity(0.8),
+            // color: Theme.of(context).primaryColor.tweenTo(Colors.white).lerp(0.3),
+            color: Theme.of(context).primaryColorDark.withOpacity(0.8),
             child: GSYPullLoadWidget(
               pullLoadWidgetControl,
                   (BuildContext context, int index) => _renderItem(index),
@@ -250,36 +258,39 @@ class SearchBottom extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GSYSearchInputWidget(
-                controller: textEditingController,
-                onSubmitted: onSubmitted,
-                onSubmitPressed: onSubmitPressed),
-            new GSYSelectItemWidget(
-              [
-                GSYLocalizations.i18n(context)!.search_tab_repos,
-                GSYLocalizations.i18n(context)!.search_tab_user,
-              ],
-              selectTypeChanged,
-              elevation: 0.0,
-              margin: const EdgeInsets.all(5.0),
-            )
-          ],
-        )
+    return Container(
+      margin: EdgeInsets.only(bottom: 2),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GSYSearchInputWidget(
+                  controller: textEditingController,
+                  onSubmitted: onSubmitted,
+                  onSubmitPressed: onSubmitPressed),
+              new GSYSelectItemWidget(
+                [
+                  GSYLocalizations.i18n(context)!.search_tab_repos,
+                  GSYLocalizations.i18n(context)!.search_tab_user,
+                ],
+                selectTypeChanged,
+                elevation: 0.0,
+                margin: const EdgeInsets.all(5.0),
+              )
+            ],
+          )
 
-      ],
+        ],
+      ),
     );
   }
 
   @override
   Size get preferredSize {
-    return new Size.fromHeight(70.0);
+    return new Size.fromHeight(65.0);
   }
 }
 

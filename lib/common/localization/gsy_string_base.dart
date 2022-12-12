@@ -87,6 +87,8 @@ abstract class GSYStringBase {
 
   String get home_theme_6;
 
+  String get home_theme_7;
+
   String get login_username_hint_text;
 
   String get login_password_hint_text;

@@ -225,7 +225,8 @@ class _RepositoryDetailPageState extends State<RepositoryDetailPage>
                   widget.userName, widget.reposName,
                   key: fileListKey),
             ],
-            backgroundColor: GSYColors.primarySwatch,
+            // backgroundColor: GSYColors.primarySwatch,
+            backgroundColor: Theme.of(context).primaryColor,
             indicatorColor: GSYColors.white,
             title: new GSYTitleBar(
               widget.reposName,
@@ -263,7 +264,7 @@ class _RepositoryDetailPageState extends State<RepositoryDetailPage>
             bottomBar: GSYBottomAppBar(
                 color: Colors.yellowAccent.shade700,
                 // color: GSYColors.white,
-                fabLocation: FloatingActionButtonLocation.endDocked,
+                // fabLocation: FloatingActionButtonLocation.endDocked,
                 shape: CircularNotchedRectangle(),
                 rowContents: (model?.footerButtons == null)
                     ? [

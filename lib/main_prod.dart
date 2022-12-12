@@ -18,6 +18,13 @@ void main() {
       return ErrorPage(
           details.exception.toString() + "\n " + details.stack.toString(), details);
     };
+
+    // 必选在前面
+    // List<String> args;
+    // if (runWebViewTitleBarWidget(args)) {
+    //   return;
+    // }
+    // WidgetsFlutterBinding.ensureInitialized();
     runApp(ConfigWrapper(
       child: FlutterReduxApp(),
       config: EnvConfig.fromJson(config),

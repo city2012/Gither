@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
@@ -58,7 +59,9 @@ class _FlutterReduxAppState extends State<FlutterReduxApp>
 
   @override
   void initState() {
-    setOptimalDisplayMode();
+    if(Platform.isAndroid){
+      setOptimalDisplayMode();
+    }
     super.initState();
     Future.delayed(Duration(seconds: 0), () {
       /// 通过 with NavigatorObserver ，在这里可以获取可以往上获取到

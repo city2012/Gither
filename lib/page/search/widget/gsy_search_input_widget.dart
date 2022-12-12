@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gsy_github_app_flutter/common/localization/default_localizations.dart';
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../../../redux/gsy_state.dart';
 /**
  * 搜索输入框
  * Created by guoshuyu
@@ -19,6 +22,7 @@ class GSYSearchInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = StoreProvider.of<GSYState>(context).state.isDark();
     return new Container(
       height: kToolbarHeight*0.7,
       width: MediaQuery.of(context).size.width*0.65,
@@ -26,7 +30,7 @@ class GSYSearchInputWidget extends StatelessWidget {
 
       decoration: new BoxDecoration(
           borderRadius: BorderRadius.horizontal(left: Radius.circular(40.0)),
-          color: Colors.white.tweenTo(Theme.of(context).primaryColorDark).lerp(0.4),
+          color: Theme.of(context).primaryColorLight.tweenTo(isDark ? GSYColors.primaryLightValue : GSYColors.primaryValue).lerp(0.15),
           border:
               new Border.all(
                 // color: Theme.of(context).primaryColor,
@@ -62,7 +66,7 @@ class GSYSearchInputWidget extends StatelessWidget {
               child: new Icon(
                 GSYICons.SEARCH,
                 size: 15.0,
-                color: Theme.of(context).primaryColorDark,
+                color: GSYColors.subTextColor,
               ),
               onPressed: onSubmitPressed)
         ],

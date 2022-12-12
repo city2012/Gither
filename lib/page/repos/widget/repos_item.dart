@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:gsy_github_app_flutter/common/utils/HexColor.dart';
 import 'package:gsy_github_app_flutter/common/utils/common_utils.dart';
 import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/model/Repository.dart';
 import 'package:gsy_github_app_flutter/model/RepositoryQL.dart';
+import 'package:gsy_github_app_flutter/page/trend/trend_page.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_card_item.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_icon_text.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_user_icon_widget.dart';
 import 'package:supercharged/supercharged.dart';
+
+import '../../../model/TrendingRepoModel.dart';
+import '../../../redux/gsy_state.dart';
 
 /**
  * 仓库Item
@@ -46,8 +51,10 @@ class ReposItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print("index :: " + index!.toString());
+    bool isDark = StoreProvider.of<GSYState>(context).state.isDark();
     Color primaryColor = Theme.of(context).primaryColor;
     Size ctxSize = MediaQuery.of(context).size;
+    String repositoryType = reposViewModel.repositoryType!;
     return new Container(
       child: new GSYCardItem(
           margin: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 10),
@@ -58,7 +65,7 @@ class ReposItem extends StatelessWidget {
                   bottomLeft: Radius.circular(6),
                   bottomRight: Radius.circular(6))),
           elevation: 5.0,
-          color: Theme.of(context).primaryColorLight.tweenTo(Colors.white).lerp(GSYColors.cardFactor),
+          color: _fetchColor(context, repositoryType, isDark).tweenTo(Colors.white).lerp(0.7),
           child: new Container(
             margin: EdgeInsets.only(left: 5),
             padding: EdgeInsets.only(left: 5, right: 10, bottom: 3, top: 5),
@@ -70,6 +77,7 @@ class ReposItem extends StatelessWidget {
                   topRight: Radius.circular(6),
                   bottomLeft: Radius.circular(6),
                   bottomRight: Radius.circular(6)),
+              // backgroundBlendMode: BlendMode.xor
               // boxShadow: [
               //   BoxShadow(
               //       color: Colors.grey.shade300,
@@ -121,6 +129,7 @@ class ReposItem extends StatelessWidget {
                               width: ctxSize.width * 0.5,
                               alignment: Alignment.centerRight,
                               child: InkWell(
+                                splashColor: Colors.red,
                                     child: new Text(
                                       reposViewModel.repositoryName ?? "",
                                       style: GSYConstant.normalTextBold.copyWith(color: GSYColors.primaryLightValue.tweenTo(Colors.white).lerp(0.8)),
@@ -134,8 +143,17 @@ class ReposItem extends StatelessWidget {
 
                             ///用户名
                             new GSYIConText(
-                                GSYICons.REPOS_ITEM_USER,
+                                Icons.person_pin_circle_rounded,
                                 reposViewModel.ownerName,
+                                GSYConstant.smallSubLightText,
+                                GSYColors.subLightTextColor,
+                                10.0,
+                                padding: 3.0,
+                                onPressed: onPressed,
+                                mainAxisAlignment: MainAxisAlignment.center),
+                            new GSYIConText(
+                                GSYICons.REPOS_ITEM_USER,
+                                reposViewModel.repositoryContributerNum! >= 5 ? reposViewModel.repositoryContributerNum.toString() + " +": reposViewModel.repositoryContributerNum.toString(),
                                 GSYConstant.smallSubLightText,
                                 GSYColors.subLightTextColor,
                                 10.0,
@@ -159,7 +177,9 @@ class ReposItem extends StatelessWidget {
                                 left: 5, right: 5, top: 2, bottom: 2),
                             decoration: BoxDecoration(
                               // color: index! % 2 == 0 ? Colors.lightBlue : Colors.lightGreen,
-                              color: primaryColor.withOpacity(0.5),
+                              color: Colors.white.tweenTo(_fetchColor(context, repositoryType, isDark)).lerp(0.65)!,
+                              // color: primaryColor.tweenTo(_fetchColor(context, repositoryType, isDark)).lerp(0.15)!,
+                              // color: _fetchColor(context, repositoryType, isDark),
                               borderRadius: BorderRadius.circular(10.0),
                               // boxShadow: [
                               //   BoxShadow(
@@ -169,9 +189,13 @@ class ReposItem extends StatelessWidget {
                               // ]
                             ),
                             child: new Text(
-                                ":: " + reposViewModel.repositoryType!,
+                                ":: " + repositoryType,
+                                // "  ",
                                 style: GSYConstant.minText
-                                    .copyWith(color: Theme.of(context).primaryColorDark.tweenTo(Colors.white).lerp(0.5))))
+                                    // .copyWith(color: Theme.of(context).primaryColorDark.tweenTo(isDark?Colors.white:Colors.black).lerp(0.5)))),
+                                    .copyWith(color: Theme.of(context).primaryColorDark.tweenTo(Colors.black).lerp(0.85)))),
+                    // new Text(" "+repositoryType, style: GSYConstant.minText
+                    //     .copyWith(fontSize: 14,color: Theme.of(context).primaryColorDark.tweenTo(isDark?Colors.white:Colors.black).lerp(0.5)))
                   ],
                 ),
                 new Container(
@@ -195,6 +219,7 @@ class ReposItem extends StatelessWidget {
                       gradient: LinearGradient(colors: [
                         primaryColor,
                         primaryColor.tweenTo(GSYColors.white).lerp(0.5)!.withOpacity(0.5),
+                        // primaryColor.tweenTo(_fetchColor(context, reposViewModel.repositoryType, isDark)).lerp(0.8)!,
                       ]),
                       // color: primaryColor.tweenTo(Colors.blueGrey).lerp(0.4),
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -220,6 +245,16 @@ class ReposItem extends StatelessWidget {
           )),
     );
   }
+
+  Color _fetchColor(BuildContext context, String? repositoryType, bool isDark) {
+    Color? color = isDark?Colors.white:GSYColors.primaryValue;
+    for(TrendTypeModel trendTypeModel in trendType(context)){
+      if(trendTypeModel.name == repositoryType){
+        color = trendTypeModel.color;
+      }
+    }
+    return color!;
+  }
 }
 
 class ReposViewModel {
@@ -232,6 +267,8 @@ class ReposViewModel {
   String? hideWatchIcon;
   String? repositoryType = "";
   String? repositoryDes;
+  int? repositoryContributerNum;
+
 
   ReposViewModel();
 
@@ -244,6 +281,7 @@ class ReposViewModel {
     repositoryWatch = data.openIssuesCount.toString();
     repositoryType = data.language ?? '---';
     repositoryDes = data.description ?? '---';
+    repositoryContributerNum = 0;
   }
 
   ReposViewModel.fromQL(RepositoryQL data) {
@@ -256,12 +294,14 @@ class ReposViewModel {
     repositoryType = data.language ?? '---';
     repositoryDes =
         CommonUtils.removeTextTag(data.shortDescriptionHTML) ?? '---';
+    repositoryContributerNum = 0;
   }
 
-  ReposViewModel.fromTrendMap(model) {
+  ReposViewModel.fromTrendMap(TrendingRepoModel model) {
     ownerName = model.name;
-    if (model.contributors != null && model.contributors.length > 0) {
-      ownerPic = model.contributors[0];
+    if (model.contributors != null && model.contributors!.length > 0) {
+      ownerPic = model.contributors![0];
+      repositoryContributerNum = model.contributors!.length;
     } else {
       ownerPic = "";
     }

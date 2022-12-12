@@ -23,6 +23,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
+import 'package:supercharged/supercharged.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /**
@@ -290,6 +291,7 @@ class CommonUtils {
       Colors.amber,
       Colors.blueGrey,
       Colors.deepOrange,
+      GSYColors.primaryLightSwatch
     ];
   }
 
@@ -450,7 +452,7 @@ class CommonUtils {
               padding: new EdgeInsets.all(4.0),
               margin: new EdgeInsets.all(20.0),
               decoration: new BoxDecoration(
-                color: GSYColors.white,
+                color: GSYColors.white.tweenTo(Colors.white70).lerp(0.5),
                 //用一个BoxDecoration装饰器提供背景图片
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
               ),
@@ -465,7 +467,7 @@ class CommonUtils {
                           ? colorList[index]
                           : Theme.of(context).primaryColor,
                       text: commitMaps![index],
-                      textColor: GSYColors.white,
+                      textColor: GSYColors.white.tweenTo(Colors.black).lerp(0.2)!,
                       onPress: () {
                         Navigator.pop(context);
                         onTap(index);

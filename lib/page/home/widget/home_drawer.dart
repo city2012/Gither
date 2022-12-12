@@ -50,6 +50,7 @@ class HomeDrawer extends StatelessWidget {
       GSYLocalizations.i18n(context)!.home_theme_4,
       GSYLocalizations.i18n(context)!.home_theme_5,
       GSYLocalizations.i18n(context)!.home_theme_6,
+      GSYLocalizations.i18n(context)!.home_theme_7,
     ];
     CommonUtils.showCommitOptionDialog(context, list, (index) {
       CommonUtils.pushTheme(store, index);
@@ -57,13 +58,12 @@ class HomeDrawer extends StatelessWidget {
     }, colorList: CommonUtils.getThemeListColor());
   }
 
-  Color? relateClr(BuildContext context, {double lerp = 0.1}){
-    return Theme.of(context)
-        .primaryColorLight
-        .tweenTo(Colors.white)
-        .lerp(lerp);
+  Color? relateClr(BuildContext context, {double lerp = 0.1}) {
+    GSYState gsyState = StoreProvider.of<GSYState>(context).state;
+    return gsyState.isDark()
+        ? Theme.of(context).primaryColorLight.tweenTo(Colors.white).lerp(lerp)
+        : null;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +117,8 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_reply,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               String content = "";
@@ -148,7 +149,8 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_history,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               NavigatorUtils.gotoCommonList(
@@ -167,7 +169,10 @@ class HomeDrawer extends StatelessWidget {
                                     child: new Text(
                                       GSYLocalizations.i18n(context)!
                                           .home_user_info,
-                                      style: GSYConstant.normalTextBold.copyWith(color: relateClr(context, lerp: 0.7)),
+                                      style: GSYConstant.normalTextBold
+                                          .copyWith(
+                                              color: relateClr(context,
+                                                  lerp: 0.7)),
                                     ))),
                             onTap: () {
                               NavigatorUtils.gotoUserProfileInfo(context);
@@ -175,7 +180,8 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_change_theme,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               showThemeDialog(context, store);
@@ -184,7 +190,8 @@ class HomeDrawer extends StatelessWidget {
                             title: new Text(
                               GSYLocalizations.i18n(context)!
                                   .home_change_language,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               CommonUtils.showLanguageDialog(context);
@@ -192,7 +199,8 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_change_grey,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               CommonUtils.changeGrey(store);
@@ -200,7 +208,8 @@ class HomeDrawer extends StatelessWidget {
                         new ListTile(
                             title: new Text(
                               GSYLocalizations.i18n(context)!.home_check_update,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onTap: () {
                               ReposDao.getNewsVersion(context, true);
@@ -210,7 +219,8 @@ class HomeDrawer extends StatelessWidget {
                               GSYLocalizations.of(context)!
                                   .currentLocalized!
                                   .home_about,
-                              style: GSYConstant.normalText.copyWith(color: relateClr(context, lerp: 0.7)),
+                              style: GSYConstant.normalText.copyWith(
+                                  color: relateClr(context, lerp: 0.7)),
                             ),
                             onLongPress: () {
                               NavigatorUtils.goDebugDataPage(context);

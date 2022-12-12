@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:gsy_github_app_flutter/model/User.dart';
 import 'package:gsy_github_app_flutter/redux/grey_redux.dart';
 import 'package:gsy_github_app_flutter/redux/login_redux.dart';
@@ -42,7 +43,13 @@ class GSYState {
       this.locale,
       this.login,
       this.grey = false});
+
+
+  bool isDark(){
+    return themeData?.primaryColor.value == GSYColors.primaryIntValue;
+  }
 }
+
 
 ///创建 Reducer
 ///源码中 Reducer 是一个方法 typedef State Reducer<State>(State state, dynamic action);

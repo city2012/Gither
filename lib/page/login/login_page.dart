@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -32,6 +34,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> with LoginBLoC {
   @override
   Widget build(BuildContext context) {
+    bool isMobile = Platform.isIOS||Platform.isAndroid;
     /// 触摸收起键盘
     return new GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -50,9 +53,9 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
                 ///同时弹出键盘不遮挡
                 child: SingleChildScrollView(
                   child: new Card(
-                    elevation: 8.0,
+                    elevation: 15.0,
                     shape: new RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                        borderRadius: BorderRadius.all(Radius.circular(40.0))),
                     color: GSYColors.cardWhite,
                     margin: const EdgeInsets.only(left: 30.0, right: 30.0),
                     child: new Padding(
@@ -132,7 +135,7 @@ class _LoginPageState extends State<LoginPage> with LoginBLoC {
                         ],
                       ),
                     ),
-                  ),
+                  )
                 ),
               ),
             )
@@ -199,6 +202,7 @@ mixin LoginBLoC on State<LoginPage> {
   }
 
   oauthLogin() async {
+
     String? code = await NavigatorUtils.goLoginWebView(context,
         Address.getOAuthUrl(), "${GSYLocalizations.i18n(context)!.oauth_text}");
 

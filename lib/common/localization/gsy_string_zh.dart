@@ -102,6 +102,8 @@ class GSYStringZh extends GSYStringBase {
   @override
   String home_theme_6 = "主题6";
 
+  String home_theme_7 = "主题7";
+
   @override
   String login_username_hint_text = "github用户名，请不要用邮箱";
   @override

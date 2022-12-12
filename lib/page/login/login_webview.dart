@@ -7,6 +7,8 @@ import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_common_option_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../common/utils/common_utils.dart';
+
 
 class LoginWebView extends StatefulWidget {
   final String url;
@@ -51,6 +53,7 @@ class _LoginWebViewState extends State<LoginWebView> {
 
   @override
   Widget build(BuildContext context) {
+    bool isMacOS = Platform.isMacOS;
     return Scaffold(
       appBar: new AppBar(
         title: _renderTitle(),
@@ -60,6 +63,7 @@ class _LoginWebViewState extends State<LoginWebView> {
           TextField(
             focusNode: focusNode,
           ),
+          !isMacOS ?
           WebView(
               initialUrl: widget.url,
               javascriptMode: JavascriptMode.unrestricted,
@@ -77,7 +81,14 @@ class _LoginWebViewState extends State<LoginWebView> {
                 setState(() {
                   isLoading = false;
                 });
-              }),
+              })
+          //TODO macOS
+              : ElevatedButton(
+            onPressed: () {
+              return CommonUtils.launchOutURL(widget.url, context);
+            },
+            child: Text("OAuth"),
+          ),
           if (isLoading)
             new Center(
               child: new Container(

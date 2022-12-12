@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_card_item.dart';
 
 import '../common/localization/default_localizations.dart';
+import '../redux/gsy_state.dart';
 
 /**
  * 详情issue列表头部，PreferredSizeWidget
@@ -75,11 +77,11 @@ class _GSYSelectItemWidgetState extends State<GSYSelectItemWidget> {
   }
 
   Widget _iconReplace(BuildContext context, String name, TextStyle style) {
-
+    bool isDark = StoreProvider.of<GSYState>(context).state.isDark();
     if (name == GSYLocalizations.i18n(context)!.search_tab_repos) {
-      return Icon(Icons.warehouse_rounded, color: Colors.white70,);
+      return Icon(Icons.warehouse_rounded, color: isDark ? Colors.white70: GSYColors.subTextColor);
     } else if (name == GSYLocalizations.i18n(context)!.search_tab_user) {
-      return Icon(Icons.account_circle_rounded, color: Colors.white70);
+      return Icon(Icons.account_circle_rounded, color: isDark ? Colors.white70: GSYColors.subTextColor);
     }
 
     return new Text(

@@ -10,6 +10,7 @@ import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_card_item.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_icon_text.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_user_icon_widget.dart';
+import 'package:supercharged/supercharged.dart';
 
 /**
  * 用户详情头部
@@ -396,6 +397,7 @@ class UserHeaderChart extends StatelessWidget {
             color: GSYColors.white,
             child: new SingleChildScrollView(
               scrollDirection: Axis.horizontal,
+              reverse: true,
               child: new Container(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 width: width,
@@ -412,7 +414,7 @@ class UserHeaderChart extends StatelessWidget {
                     width: width,
                     child: Center(
                       child:
-                          SpinKitRipple(color: Theme.of(context).primaryColor),
+                          SpinKitRipple(color: Theme.of(context).primaryColor.tweenTo(Colors.greenAccent).lerp(0.7)),
                     ),
                   ),
                 ),

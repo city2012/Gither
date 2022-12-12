@@ -77,7 +77,7 @@ class TrendPageState extends State<TrendPage>
   }
 
   ///绘制tiem
-  _renderItem(e, {int? i}) {
+  _renderItem(TrendingRepoModel e, {int? i}) {
     ReposViewModel reposViewModel = ReposViewModel.fromTrendMap(e);
     return OpenContainer(
       closedColor: Colors.transparent,
@@ -99,8 +99,9 @@ class TrendPageState extends State<TrendPage>
     if (selectTime == null && selectType == null) {
       return Container();
     }
-    var trendTimeList = trendTime(context);
-    var trendTypeList = trendType(context);
+    bool isDark = StoreProvider.of<GSYState>(context).state.isDark();
+    List<TrendTypeModel> trendTimeList = trendTime(context);
+    List<TrendTypeModel> trendTypeList = trendType(context);
     return new GSYCardItem(
       color: store.state.themeData!.primaryColor,
       margin: EdgeInsets.all(0.0),
@@ -130,8 +131,8 @@ class TrendPageState extends State<TrendPage>
                 });
                 _showRefreshLoading();
               });
-            }),
-            new Container(height: 10.0, width: 0.5, color: GSYColors.white),
+            }, isDark),
+            new Container(height: 10.0, width: 0.5, color: isDark?GSYColors.white:GSYColors.primaryValue),
             _renderHeaderPopItem(selectType!.name, trendTypeList,
                 (TrendTypeModel result) {
               if (trendBloc.isLoading) {
@@ -150,7 +151,7 @@ class TrendPageState extends State<TrendPage>
                 });
                 _showRefreshLoading();
               });
-            }),
+            }, isDark),
           ],
         ),
       ),
@@ -159,11 +160,11 @@ class TrendPageState extends State<TrendPage>
 
   ///或者头部可选弹出item容器
   _renderHeaderPopItem(String data, List<TrendTypeModel> list,
-      PopupMenuItemSelected<TrendTypeModel> onSelected) {
+      PopupMenuItemSelected<TrendTypeModel> onSelected, bool isDark) {
     return new Expanded(
       child: new PopupMenuButton<TrendTypeModel>(
         child: new Center(
-            child: new Text(data, style: GSYConstant.middleTextWhite)),
+            child: new Text(data, style: isDark?GSYConstant.middleTextWhite:GSYConstant.middleText)),
         onSelected: onSelected,
         itemBuilder: (BuildContext context) {
           return _renderHeaderPopItemChild(list);
@@ -173,7 +174,7 @@ class TrendPageState extends State<TrendPage>
   }
 
   ///或者头部可选弹出item
-  _renderHeaderPopItemChild(List<TrendTypeModel> data) {
+  List<PopupMenuEntry<TrendTypeModel>> _renderHeaderPopItemChild(List<TrendTypeModel> data) {
     List<PopupMenuEntry<TrendTypeModel>> list = [];
     for (TrendTypeModel item in data) {
       list.add(PopupMenuItem<TrendTypeModel>(
@@ -311,7 +312,7 @@ class TrendPageState extends State<TrendPage>
           child: Icon(
             Icons.person,
             size: 30,
-            color: Colors.white,
+            color: GSYColors.subTextColor,
           ),
         );
       },
@@ -358,8 +359,9 @@ class TrendPageState extends State<TrendPage>
 class TrendTypeModel {
   final String name;
   final String? value;
+  final Color? color;
 
-  TrendTypeModel(this.name, this.value);
+  TrendTypeModel(this.name, this.value, {this.color});
 }
 
 ///趋势数据时间过滤
@@ -374,20 +376,43 @@ List<TrendTypeModel> trendTime(BuildContext context) {
 ///趋势数据语言过滤
 List<TrendTypeModel> trendType(BuildContext context) {
   return [
-    TrendTypeModel(GSYLocalizations.i18n(context)!.trend_all, null),
-    TrendTypeModel("Java", "Java"),
-    TrendTypeModel("Kotlin", "Kotlin"),
-    TrendTypeModel("Dart", "Dart"),
-    TrendTypeModel("Objective-C", "Objective-C"),
-    TrendTypeModel("Swift", "Swift"),
-    TrendTypeModel("JavaScript", "JavaScript"),
-    TrendTypeModel("PHP", "PHP"),
-    TrendTypeModel("Go", "Go"),
-    TrendTypeModel("C++", "C++"),
-    TrendTypeModel("C", "C"),
-    TrendTypeModel("HTML", "HTML"),
-    TrendTypeModel("CSS", "CSS"),
-    TrendTypeModel("Python", "Python"),
-    TrendTypeModel("C#", "c%23"),
+    TrendTypeModel(GSYLocalizations.i18n(context)!.trend_all, null, color: null),
+    TrendTypeModel("Java", "Java", color: Colors.blueGrey.shade300),
+    TrendTypeModel("R", "R", color: Colors.blueGrey.shade400),
+    TrendTypeModel("Perl", "Perl", color: Colors.blueGrey.shade500),
+    TrendTypeModel("Kotlin", "Kotlin", color: Colors.orangeAccent),
+    TrendTypeModel("Dart", "Dart", color: Colors.blue),
+    TrendTypeModel("Rust", "Rust", color: Colors.blue.shade300),
+    TrendTypeModel("Objective-C", "Objective-C", color: Colors.deepPurpleAccent),
+    TrendTypeModel("Swift", "Swift", color: Colors.purpleAccent),
+    TrendTypeModel("JavaScript", "JavaScript", color: Colors.limeAccent),
+    TrendTypeModel("PHP", "PHP", color: Colors.tealAccent),
+    TrendTypeModel("Go", "Go", color: Colors.indigoAccent),
+    TrendTypeModel("C++", "C++", color: Colors.grey),
+    TrendTypeModel("C", "C", color: Colors.white70),
+    TrendTypeModel("HTML", "HTML", color: Colors.pinkAccent),
+    TrendTypeModel("CSS", "CSS", color: Colors.purpleAccent),
+    TrendTypeModel("Python", "Python", color: Colors.cyan),
+    TrendTypeModel("C#", "c%23", color: Colors.lightBlueAccent),
+    TrendTypeModel("TypeScript", "TypeScript", color: Colors.orange),
+
+
+    // TrendTypeModel(GSYLocalizations.i18n(context)!.trend_all, null, color: null),
+    // TrendTypeModel("Java", "Java", color: Colors.cyanAccent),
+    // TrendTypeModel("Kotlin", "Kotlin", color: Colors.cyanAccent),
+    // TrendTypeModel("Dart", "Dart", color: Colors.lightBlueAccent),
+    // TrendTypeModel("Objective-C", "Objective-C", color: Colors.lightBlueAccent),
+    // TrendTypeModel("Swift", "Swift", color: Colors.lightBlueAccent),
+    // TrendTypeModel("JavaScript", "JavaScript", color: Colors.lightBlueAccent),
+    // TrendTypeModel("PHP", "PHP", color: Colors.lightBlueAccent),
+    // TrendTypeModel("Go", "Go", color: Colors.cyanAccent),
+    // TrendTypeModel("C++", "C++", color: Colors.cyanAccent),
+    // TrendTypeModel("C", "C", color: Colors.cyanAccent),
+    // TrendTypeModel("HTML", "HTML", color: Colors.lightBlueAccent),
+    // TrendTypeModel("CSS", "CSS", color: Colors.lightBlueAccent),
+    // TrendTypeModel("Python", "Python", color: Colors.blueGrey),
+    // TrendTypeModel("C#", "c%23", color: Colors.cyanAccent),
+    // TrendTypeModel("Rust", "Rust", color: Colors.cyanAccent),
+    // TrendTypeModel("TypeScript", "TypeScript", color: Colors.lightBlueAccent),
   ];
 }

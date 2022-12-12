@@ -11,12 +11,12 @@ class AnimatedBackground extends StatelessWidget {
       ..add(
         _ColorTween.color1,
         Color(0xffD38312).tweenTo(Colors.lightBlue.shade900),
-        3.seconds,
+        8.seconds,
       )
       ..add(
         _ColorTween.color2,
         Color(0xffA83279).tweenTo(Colors.blue.shade600),
-        3.seconds,
+        8.seconds,
       );
 
     return MirrorAnimation<MultiTweenValues<_ColorTween>>(

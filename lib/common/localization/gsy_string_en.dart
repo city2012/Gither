@@ -101,6 +101,8 @@ class GSYStringEn extends GSYStringBase {
   @override
   String home_theme_6 = "Theme6";
 
+  String home_theme_7 = "Theme7";
+
   @override
   String login_username_hint_text = "username";
   @override
