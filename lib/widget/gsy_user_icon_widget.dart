@@ -55,11 +55,11 @@ class GSYUserIconWidget extends StatelessWidget {
   ImageProvider _networkImageWithDefault(String? imageUrl){
     try{
       if(imageUrl!.isEmpty){
-        return AssetImage(GSYICons.DEFAULT_USER_ICON!);
+        return AssetImage(GSYICons.DEFAULT_USER_ICON);
       }
-       return NetworkImage(imageUrl!);
+       return NetworkImage(imageUrl);
     }catch(e){
-      return AssetImage(GSYICons.DEFAULT_USER_ICON!);
+      return AssetImage(GSYICons.DEFAULT_USER_ICON);
     }
 
   }

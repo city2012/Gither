@@ -30,7 +30,7 @@ class TrendBloc {
     //_subject.add([]);
     DataResult res = await ReposDao.getTrendDao(
         since: selectTime.value, languageType: selectType.value);
-    if (res != null && res.result) {
+    if (res.result) {
       _subject.add(List.from(res.data));
     }
     await doNext(res);

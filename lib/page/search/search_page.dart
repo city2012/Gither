@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gsy_github_app_flutter/common/localization/default_localizations.dart';
 import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:gsy_github_app_flutter/page/search/search_bloc.dart';
@@ -13,7 +12,6 @@ import 'package:gsy_github_app_flutter/page/search/widget/gsy_search_input_widge
 import 'package:gsy_github_app_flutter/widget/gsy_select_item_widget.dart';
 import 'package:gsy_github_app_flutter/page/repos/widget/repos_item.dart';
 import 'package:gsy_github_app_flutter/page/user/widget/user_item.dart';
-import 'package:supercharged/supercharged.dart';
 
 /**
  * 搜索页面

@@ -8,7 +8,6 @@ import 'package:gsy_github_app_flutter/common/localization/default_localizations
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 import 'package:gsy_github_app_flutter/common/utils/html_utils.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_title_bar.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 /**
  * 文件代码详情

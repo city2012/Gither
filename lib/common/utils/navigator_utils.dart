@@ -346,7 +346,7 @@ class NavigatorUtils {
     return MediaQuery(
 
         ///不受系统字体缩放影响
-        data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+        data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1)),
         child: NeverOverScrollIndicator(
           needOverload: false,
           child: widget,
@@ -366,8 +366,8 @@ class NavigatorUtils {
           return MediaQuery(
 
               ///不受系统字体缩放影响
-              data: MediaQueryData.fromWindow(WidgetsBinding.instance.window)
-                  .copyWith(textScaleFactor: 1),
+              data: MediaQueryData.fromView(WidgetsBinding.instance.window)
+                  .copyWith(textScaler: TextScaler.linear(1)),
               child: NeverOverScrollIndicator(
                 needOverload: false,
                 child: new SafeArea(child: builder!(context)),

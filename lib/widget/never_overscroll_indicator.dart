@@ -23,7 +23,7 @@ class NeverOverScrollBehavior extends ScrollBehavior {
   NeverOverScrollBehavior({this.needOverload = true});
 
   @override
-  Widget buildViewportChrome(
+  Widget buildOverscrollIndicator(
       BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }

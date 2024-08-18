@@ -99,19 +99,17 @@ class TrendingUtil {
 
     String? description = parseContentWithNote(
         htmlBaseInfo, '<p class="col-9 color-fg-muted my-1 pr-4">', '</p>');
-    if (description != null) {
-      String reg = "<g-emoji.*?>.+?</g-emoji>";
-      RegExp tag = new RegExp(reg);
-      Iterable<Match> tags = tag.allMatches(description);
-      for (Match m in tags) {
-        String match = m
-            .group(0)!
-            .replaceAll(new RegExp("<g-emoji.*?>"), "")
-            .replaceAll(new RegExp("</g-emoji>"), "");
-        description = description?.replaceAll(new RegExp(m.group(0)!), match);
-      }
+    String reg = "<g-emoji.*?>.+?</g-emoji>";
+    RegExp tag = new RegExp(reg);
+    Iterable<Match> tags = tag.allMatches(description);
+    for (Match m in tags) {
+      String match = m
+          .group(0)!
+          .replaceAll(new RegExp("<g-emoji.*?>"), "")
+          .replaceAll(new RegExp("</g-emoji>"), "");
+      description = description?.replaceAll(new RegExp(m.group(0)!), match);
     }
-    repo.description = description;
+      repo.description = description;
   }
 
   static parseRepoLabelWithTag(repo, noteContent, tag) {

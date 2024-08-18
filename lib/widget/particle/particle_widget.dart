@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gsy_github_app_flutter/widget/particle/particle_model.dart';
 import 'package:gsy_github_app_flutter/widget/particle/particle_painter.dart';
-import 'package:simple_animations/simple_animations.dart';
 import 'package:supercharged/supercharged.dart';
 
 class ParticlesWidget extends StatefulWidget {

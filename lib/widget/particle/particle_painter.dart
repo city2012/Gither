@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gsy_github_app_flutter/widget/particle/particle_model.dart';
-import 'package:simple_animations/simple_animations.dart';
 
 class ParticlePainter extends CustomPainter {
   List<ParticleModel> particles;

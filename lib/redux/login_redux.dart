@@ -6,7 +6,6 @@ import 'package:gsy_github_app_flutter/common/utils/common_utils.dart';
 import 'package:gsy_github_app_flutter/common/utils/navigator_utils.dart';
 import 'package:redux/redux.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'middleware/epic_store.dart';
 
 /**

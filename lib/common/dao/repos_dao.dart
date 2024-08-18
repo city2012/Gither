@@ -35,7 +35,7 @@ import 'package:gsy_github_app_flutter/common/net/address.dart';
 import 'package:gsy_github_app_flutter/common/net/api.dart';
 import 'package:gsy_github_app_flutter/common/net/trending/github_trending.dart';
 import 'package:gsy_github_app_flutter/common/utils/common_utils.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pub_semver/pub_semver.dart';
 
 /**
@@ -100,7 +100,7 @@ class ReposDao {
     if (needDb) {
       List<TrendingRepoModel>? list =
           await provider.getData(languageTypeDb + "V2", since);
-      if (list == null || list.length == 0) {
+      if (list?.length == 0) {
         return await next();
       }
       DataResult dataResult = new DataResult(list, true, next: next);
@@ -178,9 +178,6 @@ class ReposDao {
 
     if (needDb) {
       List<Event>? list = await provider.getEvents(fullName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -234,9 +231,6 @@ class ReposDao {
 
     if (needDb) {
       List<RepoCommit>? list = await provider.getData(fullName, branch);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -340,9 +334,6 @@ class ReposDao {
 
     if (needDb) {
       List<User>? list = await provider.geData(fullName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -380,9 +371,6 @@ class ReposDao {
 
     if (needDb) {
       List<User>? list = await provider.geData(fullName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -421,9 +409,6 @@ class ReposDao {
 
     if (needDb) {
       List<Repository>? list = await provider.geData(fullName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -460,9 +445,6 @@ class ReposDao {
 
     if (needDb) {
       List<Repository>? list = await provider.geData(userName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -499,9 +481,6 @@ class ReposDao {
 
     if (needDb) {
       List<Repository>? list = await provider.geData(userName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -600,9 +579,6 @@ class ReposDao {
 
     if (needDb) {
       String? readme = await provider.getRepositoryReadme(fullName, branch);
-      if (readme == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(readme, true, next: next);
       return dataResult;
     }
@@ -719,39 +695,37 @@ class ReposDao {
     if (res != null && res.result && res.data.length > 0) {
       Release release = res.data[0];
       String? versionName = release.name;
-      if (versionName != null) {
-        if (Config.DEBUG!) {
-          print("versionName " + versionName);
-        }
-
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        var appVersion = packageInfo.version;
-
-        if (Config.DEBUG!) {
-          print("appVersion " + appVersion);
-        }
-        Version versionNameNum = Version.parse(versionName);
-        Version currentNum = Version.parse(appVersion);
-        int result = versionNameNum.compareTo(currentNum);
-        if (Config.DEBUG!) {
-          print("versionNameNum " +
-              versionNameNum.toString() +
-              " currentNum " +
-              currentNum.toString());
-        }
-        if (Config.DEBUG!) {
-          print("newsHad " + result.toString());
-        }
-        if (result > 0) {
-          CommonUtils.showUpdateDialog(
-              context, release.name! + ": " + release.body!);
-        } else {
-          if (showTip)
-            Fluttertoast.showToast(
-                msg: GSYLocalizations.i18n(context)!.app_not_new_version);
-        }
+      if (Config.DEBUG!) {
+        print("versionName " + versionName!);
       }
-    }
+
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      var appVersion = packageInfo.version;
+
+      if (Config.DEBUG!) {
+        print("appVersion " + appVersion);
+      }
+      Version versionNameNum = Version.parse(versionName!);
+      Version currentNum = Version.parse(appVersion);
+      int result = versionNameNum.compareTo(currentNum);
+      if (Config.DEBUG!) {
+        print("versionNameNum " +
+            versionNameNum.toString() +
+            " currentNum " +
+            currentNum.toString());
+      }
+      if (Config.DEBUG!) {
+        print("newsHad " + result.toString());
+      }
+      if (result > 0) {
+        CommonUtils.showUpdateDialog(
+            context, release.name! + ": " + release.body!);
+      } else {
+        if (showTip)
+          Fluttertoast.showToast(
+              msg: GSYLocalizations.i18n(context)!.app_not_new_version);
+      }
+        }
   }
 
   /**
@@ -811,7 +785,7 @@ class ReposDao {
   static getHistoryDao(page) async {
     ReadHistoryDbProvider provider = new ReadHistoryDbProvider();
     List<RepositoryQL?>? list = await provider.geData(page);
-    if (list == null || list.length <= 0) {
+    if (list!.length <= 0) {
       return new DataResult(null, false);
     }
     return new DataResult(list, true);

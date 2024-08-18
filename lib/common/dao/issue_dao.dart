@@ -63,9 +63,6 @@ class IssueDao {
 
     if (needDb) {
       List<Issue>? list = await provider.getData(fullName, dbState);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -143,7 +140,7 @@ class IssueDao {
    * issue的详请列表
    */
   static getIssueCommentDao(userName, repository, number,
-      {page: 0, needDb = false}) async {
+      {page = 0, needDb = false}) async {
     String? fullName = userName + "/" + repository;
     IssueCommentDbProvider provider = new IssueCommentDbProvider();
 
@@ -173,9 +170,6 @@ class IssueDao {
 
     if (needDb) {
       List<Issue>? list = await provider.getData(fullName, number);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
-import 'package:gsy_github_app_flutter/widget/gsy_icon_text.dart';
 import 'package:gsy_github_app_flutter/widget/gsy_tabs.dart' as GSYTab;
 
 import '../common/localization/default_localizations.dart';
-import '../common/utils/navigator_utils.dart';
 
 ///支持顶部和顶部的TabBar控件
 ///配合AutomaticKeepAliveClientMixin可以keep住

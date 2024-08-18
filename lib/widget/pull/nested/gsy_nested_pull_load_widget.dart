@@ -4,7 +4,6 @@ import 'package:gsy_github_app_flutter/common/localization/default_localizations
 import 'package:gsy_github_app_flutter/common/style/gsy_style.dart';
 
 import 'package:gsy_github_app_flutter/widget/pull/gsy_pull_load_widget.dart';
-import 'package:supercharged/supercharged.dart';
 import 'nested_refresh.dart';
 
 ///通用下上刷新控件

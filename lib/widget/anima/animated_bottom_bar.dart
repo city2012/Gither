@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../common/style/gsy_style.dart';
 
 class AnimatedBottomBar extends StatefulWidget {
   final List<BarItem> barItems;
@@ -91,7 +90,6 @@ class _AnimatedBottomBarState extends State<AnimatedBottomBar>
               AnimatedSize(
                 duration: widget.animationDuration,
                 curve: Curves.easeInOut,
-                vsync: this,
                 child: Text(
                   isSelected ? item.text! : "",
                   style: TextStyle(

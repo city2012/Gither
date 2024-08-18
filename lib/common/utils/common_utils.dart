@@ -124,7 +124,7 @@ class CommonUtils {
         return null;
       }
     }
-    String appDocPath = appDir!.path + "/gsygithubappflutter";
+    String appDocPath = appDir.path + "/gsygithubappflutter";
     Directory appPath = Directory(appDocPath);
     await appPath.create(recursive: true);
     return appPath;

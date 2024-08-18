@@ -102,13 +102,13 @@ class UserDao {
 
     ///读取主题
     String? themeIndex = await LocalStorage.get(Config.THEME_COLOR);
-    if (themeIndex != null && themeIndex.length != 0) {
+    if (themeIndex.length != 0) {
       CommonUtils.pushTheme(store, int.parse(themeIndex));
     }
 
     ///切换语言
     String? localeIndex = await LocalStorage.get(Config.LOCALE);
-    if (localeIndex != null && localeIndex.length != 0) {
+    if (localeIndex.length != 0) {
       CommonUtils.changeLocale(store, int.parse(localeIndex));
     } else {
       CommonUtils.curLocale = store.state.platformLocale;
@@ -236,9 +236,6 @@ class UserDao {
 
     if (needDb) {
       List<User>? list = await provider.geData(userName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -274,9 +271,6 @@ class UserDao {
 
     if (needDb) {
       List<User>? list = await provider.geData(userName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
@@ -414,9 +408,6 @@ class UserDao {
 
     if (needDb) {
       List<UserOrg>? list = await provider.geData(userName);
-      if (list == null) {
-        return await next();
-      }
       DataResult dataResult = new DataResult(list, true, next: next);
       return dataResult;
     }
